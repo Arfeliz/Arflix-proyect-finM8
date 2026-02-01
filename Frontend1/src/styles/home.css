@@ -1,0 +1,73 @@
+.home-container {
+  padding-top: 80px;
+}
+
+.home-hero {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to top, var(--netflix-black), transparent),
+              linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+  text-align: center;
+}
+
+.movie-grid {
+  display: grid;
+  width: 100%;
+  padding: 20px 4% 60px 4%;
+  box-sizing: border-box;
+  /* Grid responsivo: se adapta a monitores anchos automáticamente */
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .movie-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+}
+
+.movie-card {
+  position: relative;
+  background-color: var(--netflix-dark-grey);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: var(--transition);
+  text-decoration: none;
+  color: white;
+}
+
+.movie-card:hover {
+  transform: scale(1.1);
+  z-index: 10;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.7);
+}
+
+.movie-card img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  display: block;
+}
+
+.movie-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.movie-card:hover .movie-overlay { opacity: 1; }
+
+.play-icon { font-size: 40px; }
+
+.movie-card h4 {
+  padding: 10px;
+  margin: 0;
+  font-size: 14px;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}

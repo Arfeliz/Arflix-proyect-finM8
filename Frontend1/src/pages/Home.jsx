@@ -1,28 +1,31 @@
-import { useEffect, useState } from 'react';
-import api from '../api/axios';
+import { Link } from 'react-router-dom';
+import { useMovies } from '../hooks/useMovies'; //
+import Navbar from '../components/Navbar';
+import '../styles/home.css';
 
 const Home = () => {
-    const [movies, setMovies] = useState([]);
+    const { allMovies, loading, error } = useMovies(); //
 
-    useEffect(() => {
-        api.get('/movies').then(res => setMovies(res.data.data));
-    }, []);
+    if (loading) return <div className="status-msg">Cargando catálogo de Netflix...</div>;
+    if (error) return <div className="status-msg error">{error}</div>;
 
     return (
-        <div style={{ backgroundColor: '#141414', color: 'white', minHeight: '100vh' }}>
-            <nav style={{ padding: '20px', fontSize: '24px', color: '#E50914', fontWeight: 'bold' }}>NETFLIX-CLONE</nav>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px', padding: '20px' }}>
-                {movies.map(movie => (
-                    <div key={movie.id} className="movie-card">
-                        <img 
-                            src={`http://localhost:3000${movie.coverImage}`} 
-                            alt={movie.title} 
-                            style={{ width: '100%', borderRadius: '4px', transition: 'transform .2s' }}
-                        />
+        <div className="home-container">
+            <Navbar />
+            <header className="home-hero">
+                <h1>Películas Ilimitadas y mucho más.</h1>
+            </header>
+            <main className="movie-grid">
+                {allMovies.map(movie => (
+                    <Link to={`/movie/${movie.id}`} key={movie.id} className="movie-card">
+                        <img src={movie.coverImage} alt={movie.title} />
+                        <div className="movie-overlay">
+                            <span className="play-icon">▶</span>
+                        </div>
                         <h4>{movie.title}</h4>
-                    </div>
+                    </Link>
                 ))}
-            </div>
+            </main>
         </div>
     );
 };

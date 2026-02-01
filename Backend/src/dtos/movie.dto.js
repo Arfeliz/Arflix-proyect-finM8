@@ -2,11 +2,11 @@ import { z } from 'zod';
 
 // 1. DTO de Entrada: Lo que el sistema acepta
 export const CreateMovieDTO = z.object({
-    title: z.string().min(1, "El título es obligatorio"),
-    genre: z.string().min(1, "El género es obligatorio"),
-    year: z.preprocess((val) => Number(val), z.number().int().min(1888)),
-    description: z.string().min(10, "La descripción debe ser más larga"),
-    trailerUrl: z.string().url("Debe ser una URL válida de YouTube")
+    title: z.string().min(1),
+    genre: z.string(),
+    year: z.preprocess((val) => Number(val), z.number().int().min(1888)), // Vital para FormData
+    description: z.string(),
+    trailerUrl: z.string().url()
 });
 
 // 2. DTO de Salida Detallado: Para la vista de detalle (MovieDetail)

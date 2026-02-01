@@ -17,6 +17,8 @@ export const getMovies = async (req, res) => {
 
 export const postMovie = async (req, res) => {
     try {
+        console.log("Body recibido:", req.body); // Ver qué llega del frontend
+        console.log("Archivo recibido:", req.file);
         // 1. Validar datos de entrada con DTO
         const validatedInput = CreateMovieDTO.parse(req.body);
 
@@ -51,8 +53,14 @@ export const putMovie = async (req, res) => {
 
 export const removeMovie = async (req, res) => {
     try {
-        const deleted = await movieService.deleteMovie(req.params.id);
-        if (!deleted) return res.status(404).json({ status: 'fail', message: 'Película no encontrada' });
+        const { id } = req.params;
+        const deleted = await movieService.deleteMovie(id);
+        
+        if (!deleted) {
+            return res.status(404).json({ status: 'fail', message: 'No se encontró la película' });
+        }
+
+        // 204 significa "No Content", éxito pero sin cuerpo de respuesta
         res.status(204).send(); 
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });

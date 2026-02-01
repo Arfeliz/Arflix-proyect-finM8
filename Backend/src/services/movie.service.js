@@ -9,8 +9,19 @@ const readData = async () => {
     try {
         const data = await fs.readFile(filePath, 'utf-8');
         const json = JSON.parse(data);
-        return json.movies || []; // Asegura compatibilidad con el objeto { movies: [] }
+        
+        // Verificamos si json es un objeto y tiene la propiedad movies
+        if (json && Array.isArray(json.movies)) {
+            return json.movies;
+        }
+        
+        // Si el JSON es solo un array directo, lo retornamos
+        if (Array.isArray(json)) return json;
+
+        return [];
     } catch (error) {
+        // Si el archivo no existe, creamos la estructura base
+        await writeData([]); 
         return [];
     }
 };
